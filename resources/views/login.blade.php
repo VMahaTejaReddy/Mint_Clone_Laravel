@@ -25,11 +25,13 @@
     </form>
 
     <p class="mt-4 text-sm text-center">
-      Don’t have an account? <a href="/register" class="text-indigo-400 hover:underline">Register</a>
+      Don’t have an account? <a href="/" class="text-indigo-400 hover:underline">Register</a>
     </p>
   </div>
 
   <script>
+        localStorage.removeItem("jwt_token");
+
         document.getElementById('loginForm').addEventListener('submit', async function(event){
             event.preventDefault();
 

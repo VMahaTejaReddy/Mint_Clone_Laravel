@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Routing\Controller;
+// use Illuminate\Routing\Controller;
 
 class AuthController extends Controller
 {
@@ -45,9 +45,15 @@ class AuthController extends Controller
         return response()->json(compact('token'));
     }
 
-    public function me(){
-        return response()->json(['user' => JWTAuth::user()]);
-    }
+    // public function me(){
+    //     return response()->json(['user' => JWTAuth::user()]);
+    // }
+
+    public function me()
+{
+    $user = JWTAuth::user();
+    return response()->json(['id' => $user->id]);
+}
 
     public function logout()
     {
