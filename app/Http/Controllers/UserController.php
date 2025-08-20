@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
@@ -87,6 +88,6 @@ class UserController extends Controller
         }
         $user->delete();
         return response()->json(['message'=>'User deleted successfully']);
-
     }
+    
 }
