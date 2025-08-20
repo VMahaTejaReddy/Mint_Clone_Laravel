@@ -90,6 +90,12 @@
     window.location.href = "/login";
   }
 
+  // Logout
+    document.getElementById("logoutBtn").addEventListener("click", async function() {
+      localStorage.removeItem("jwt_token");
+      window.location.href = "/login";
+    });
+    
   const upcomingBills = document.getElementById("upcomingBills");
   const overdueBills = document.getElementById("overdueBills");
 

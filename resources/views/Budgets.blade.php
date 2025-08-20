@@ -84,6 +84,12 @@
       window.location.href = "/login";
     }
 
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", async function() {
+      localStorage.removeItem("jwt_token");
+      window.location.href = "/login";
+    });
+
     const budgetsList = document.getElementById("budgetsList");
 
     function renderBudget(budget) {

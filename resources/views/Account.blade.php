@@ -11,21 +11,20 @@
 <body class="bg-gray-900 text-gray-100 min-h-screen flex">
 
   <!-- Navbar -->
-  <nav class="fixed left-0 top-0 bg-gray-800 p-4 flex flex-col w-64 h-screen">
-    <h1 class="text-2xl font-bold mb-6">Mint</h1>
-    <div class="flex flex-col space-y-3">
-      <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-lg hover:bg-gray-700">Dashboard</a>
-      <a href="{{ route('accounts') }}" class="block px-3 py-2 rounded-lg bg-gray-700">Accounts</a>
-      <a href="{{ route('bills') }}" class="block px-3 py-2 rounded-lg hover:bg-gray-700">Bills</a>
-      <a href="{{ route('budgets') }}" class="block px-3 py-2 rounded-lg hover:bg-gray-700">Budgets</a>
-      <a href="{{ route('categories') }}" class="block px-3 py-2 rounded-lg hover:bg-gray-700">Categories</a>
-      <a href="{{ route('transactions') }}" class="block px-3 py-2 rounded-lg hover:bg-gray-700">Transactions</a>
-      <a href="{{ route('goals') }}" class="block px-3 py-2 rounded-lg hover:bg-gray-700">Goals</a>
-      <a href="#" class="block px-3 py-2 rounded-lg hover:bg-gray-700">Notifications</a>
-      <a href="{{ route('profile') }}" class="block px-3 py-2 rounded-lg hover:bg-gray-700">Profile</a>
+  <nav class="bg-gray-800 fixed left-0 top-0 h-full w-64 p-6 flex flex-col">
+    <h1 class="text-2xl font-bold mb-8">Mint</h1>
+    <div class="flex flex-col space-y-3 flex-grow">
+      <a href="{{ route('dashboard') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Dashboard</a>
+      <a href="{{ route('accounts') }}" class="px-3 py-2 rounded-lg bg-gray-700">Accounts</a>
+      <a href="{{ route('bills') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Bills</a>
+      <a href="{{ route('budgets') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Budgets</a>
+      <a href="{{ route('categories') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Categories</a>
+      <a href="{{ route('transactions') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Transactions</a>
+      <a href="{{ route('goals') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Goals</a>
+      <a href="#" class="px-3 py-2 rounded-lg hover:bg-gray-700">Notifications</a>
+      <a href="{{ route('profile') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Profile</a>
     </div>
-    <button id="logoutBtn"
-      class="mt-auto bg-red-600 hover:bg-red-700 w-full px-4 py-2 rounded-lg font-semibold">Logout</button>
+    <button id="logoutBtn" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold">Logout</button>
   </nav>
 
   <!-- Main Content -->
@@ -85,6 +84,12 @@
       window.location.href = "/login";
     }
 
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", async function() {
+      localStorage.removeItem("jwt_token");
+      window.location.href = "/login";
+    });
+    
     const accountsList = document.getElementById("accountsList");
 
     // Function to render a single account card

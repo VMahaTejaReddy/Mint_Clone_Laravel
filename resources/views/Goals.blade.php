@@ -10,7 +10,7 @@
 
 <body class="bg-gray-900 text-gray-100 min-h-screen flex">
 
-  <!-- Sidebar -->
+  <!-- Navbar -->
   <nav class="bg-gray-800 fixed left-0 top-0 h-full w-64 p-6 flex flex-col">
     <h1 class="text-2xl font-bold mb-8">Mint</h1>
     <div class="flex flex-col space-y-3 flex-grow">
@@ -77,6 +77,12 @@
     if (!token) {
       window.location.href = "/login";
     }
+
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", async function() {
+      localStorage.removeItem("jwt_token");
+      window.location.href = "/login";
+    });
 
     // Load all goals
     async function loadGoals() {
