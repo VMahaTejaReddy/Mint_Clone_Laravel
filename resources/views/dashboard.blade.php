@@ -9,8 +9,10 @@
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col lg:flex-row">
 
   <!-- Navbar -->
-  <nav class="bg-gray-800 p-3 sm:p-4 flex justify-around lg:flex-col lg:justify-start lg:w-64 lg:min-h-screen">
+  <nav class="bg-gray-800 p-3 sm:p-4 flex justify-around lg:flex-col lg:justify-start lg:w-64 lg:min-h-screen fixed">
     <h1 class="text-lg sm:text-xl font-bold mb-4 hidden lg:block">Mint</h1>
+
+    <!-- Menu -->
     <div class="flex space-x-2 sm:space-x-4 lg:space-x-0 lg:flex-col lg:space-y-3 w-full">
       <a href="{{ route('dashboard') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg bg-gray-700 text-center lg:text-left">Dashboard</a>
       <a href="{{ route('accounts') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Accounts</a>
@@ -22,12 +24,15 @@
       <a href="#" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Notifications</a>
       <a href="{{ route('profile') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Profile</a>
     </div>
-    <button id="logoutBtn" class="mt-4 bg-red-600 hover:bg-red-700 w-full px-4 py-2 rounded-lg font-semibold">Logout</button>
+
+    <!-- Logout at bottom -->
+    <button id="logoutBtn" class="mt-auto bg-red-600 hover:bg-red-700 w-full px-4 py-2 rounded-lg font-semibold">
+      Logout
+    </button>
   </nav>
 
   <!-- Main Content -->
-  <main class="flex-1 p-4 sm:p-6 space-y-6">
-
+  <main class="flex-1 p-4 sm:p-6 space-y-6 lg:ml-64">
     <h2 class="text-2xl font-bold mb-4">Welcome!</h2>
 
     <!-- Accounts Section -->
@@ -61,7 +66,6 @@
         <!-- Goals will be inserted here -->
       </div>
     </div>
-
   </main>
 
   <script>

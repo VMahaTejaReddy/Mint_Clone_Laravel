@@ -109,9 +109,6 @@
         </div>
       `;
     }
-
-
-
     // Load all accounts on page load
     async function loadAccounts() {
       try {

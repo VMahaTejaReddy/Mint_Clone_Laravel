@@ -28,65 +28,62 @@
     <button id="logoutBtn" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold">Logout</button>
   </nav>
 
-  <!-- Main Content -->
-  <main class="ml-64 flex-1 p-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+  <!-- Main Content (stacked layout) -->
+  <main class="ml-64 flex-1 p-8 space-y-8">
 
-      <!-- Bills Form -->
-      <div class="bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg flex flex-col">
-        <h2 class="text-2xl font-semibold text-center mb-4">Add Bill</h2>
-        <form id="billsForm" class="space-y-4 flex flex-col" method="POST" action="{{ route('bills.store') }}">
-          @csrf
-          <div>
-            <input type="text" name="name" placeholder="Bill Name (e.g., Electricity)"
-              class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-green-500 outline-none">
-            <p class="text-red-400 text-sm mt-1 hidden" id="nameError">Bill name is required.</p>
-          </div>
-
-          <div>
-            <input type="number" name="amount" placeholder="Amount"
-              class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-green-500 outline-none">
-            <p class="text-red-400 text-sm mt-1 hidden" id="amountError">Amount must be a valid number.</p>
-          </div>
-
-          <div>
-            <input type="date" name="due_date"
-              class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-green-500 outline-none">
-            <p class="text-red-400 text-sm mt-1 hidden" id="dueDateError">Due date is required.</p>
-          </div>
-
-          <button type="submit"
-            class="w-full bg-green-600 hover:bg-green-700 py-3 rounded-lg text-white font-medium">Save Bill</button>
-
-          <p class="text-sm text-gray-400 mt-6 text-center">
-            <a href="/dashboard" class="text-indigo-400 hover:underline">← Back to Dashboard</a>
-          </p>
-        </form>
-      </div>
-
-      <!-- Bills List -->
-      <div class="bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg">
-        <h2 class="text-2xl font-semibold text-center mb-6">Bills List</h2>
-
-        <!-- Upcoming Bills -->
+    <!-- Bills Form -->
+    <div class="bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-2xl mx-auto">
+      <h2 class="text-2xl font-semibold text-center mb-4">Add Bill</h2>
+      <form id="billsForm" class="space-y-4 flex flex-col" method="POST" action="{{ route('bills.store') }}">
+        @csrf
         <div>
-          <h3 class="text-xl font-semibold text-green-400 mb-3">Upcoming Bills</h3>
-          <div id="upcomingBills"
-            class="grid sm:grid-cols-2 gap-4 max-h-[250px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-          </div>
+          <input type="text" name="name" placeholder="Bill Name (e.g., Electricity)"
+            class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-green-500 outline-none">
+          <p class="text-red-400 text-sm mt-1 hidden" id="nameError">Bill name is required.</p>
         </div>
 
-        <!-- Overdue Bills -->
-        <div class="mt-8">
-          <h3 class="text-xl font-semibold text-red-400 mb-3">Overdue Bills</h3>
-          <div id="overdueBills"
-            class="grid sm:grid-cols-2 gap-4 max-h-[250px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-          </div>
+        <div>
+          <input type="number" name="amount" placeholder="Amount"
+            class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-green-500 outline-none">
+          <p class="text-red-400 text-sm mt-1 hidden" id="amountError">Amount must be a valid number.</p>
+        </div>
+
+        <div>
+          <input type="date" name="due_date"
+            class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-green-500 outline-none">
+          <p class="text-red-400 text-sm mt-1 hidden" id="dueDateError">Due date is required.</p>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-green-600 hover:bg-green-700 py-3 rounded-lg text-white font-medium">Save Bill</button>
+
+        <p class="text-sm text-gray-400 mt-6 text-center">
+          <a href="/dashboard" class="text-indigo-400 hover:underline">← Back to Dashboard</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- Bills List -->
+    <div class="bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-5xl mx-auto">
+      <h2 class="text-2xl font-semibold text-center mb-6">Bills List</h2>
+
+      <!-- Upcoming Bills -->
+      <div>
+        <h3 class="text-xl font-semibold text-green-400 mb-3">Upcoming Bills</h3>
+        <div id="upcomingBills"
+          class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[250px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+        </div>
+      </div>
+
+      <!-- Overdue Bills -->
+      <div class="mt-8">
+        <h3 class="text-xl font-semibold text-red-400 mb-3">Overdue Bills</h3>
+        <div id="overdueBills"
+          class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[250px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
         </div>
       </div>
     </div>
   </main>
-
 <script>
   const token = localStorage.getItem("jwt_token");
   if (!token) {
