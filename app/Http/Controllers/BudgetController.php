@@ -8,12 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class BudgetController extends Controller
 {
-//     public function index()
-// {
-//     return response()->json(
-//         Budget::with('category')->where('user_id', Auth::id())->get()
-//     );
-// }
+//
 public function index()
 {
     $budgets = Budget::with('category')->where('user_id', Auth::id())->get();

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF--8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accounts</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -10,7 +10,6 @@
 
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center p-6">
 
-  <!-- Accounts Form -->
   <div class="bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-md h-[350px] flex flex-col justify-between">
     <h2 class="text-2xl font-semibold text-center mb-2">Add Account</h2>
     <form id="accountsForm" class="space-y-3 flex-1 flex flex-col justify-center" method="POST" action="{{ route('accounts.store') }}">
@@ -27,8 +26,7 @@
         <option value="Credit">Credit Card</option>
       </select>
 
-      <!-- Back to Dashboard -->
-    <p class="text-sm text-gray-400 mt-6 text-center">
+      <p class="text-sm text-gray-400 mt-6 text-center">
       <a href="/dashboard" class="text-indigo-400 hover:underline">← Back to Dashboard</a>
     </p>
 
@@ -37,102 +35,31 @@
     </form>
   </div>
 
-  <!-- Accounts List -->
   <div class="bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-4xl mt-10">
     <h2 class="text-2xl font-semibold text-center mb-6">Accounts List</h2>
     <div id="accountsList"
       class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-            <!-- Accounts will be dynamically loaded here -->
-        </div>
-    </div>
-
-  <script>
-    const token = localStorage.getItem("jwt_token");
-    if (!token) {
-      window.location.href = "/login";
-    }
-
-    const accountsList = document.getElementById("accountsList");
-
-    // Function to render a single account card
-    function renderAccount(account) {
-      accountsList.innerHTML += `
+      
+      @foreach ($accounts as $account)
         <div class="bg-gray-700 p-4 rounded-lg shadow-md w-full h-[150px] flex flex-col justify-between">
-          <h3 class="text-lg font-semibold truncate">${account.name}</h3>
-          <p>Balance: <span class="font-medium">₹${account.balance}</span></p>
-          <p>Type: ${account.type}</p>
+          <div>
+            <h3 class="text-lg font-semibold truncate">{{ $account->name }}</h3>
+            <p>Balance: <span class="font-medium">₹{{ $account->balance }}</span></p>
+            <p>Type: {{ $account->type }}</p>
+          </div>
           <div class="flex justify-end space-x-2">
-    <a href="/accounts/${account.id}/edit" class="text-sm bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded">Edit</a>
-    <form action="/accounts/${account.id}" method="POST" onsubmit="return confirm('Are you sure?')">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="text-sm bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">Delete</button>
-    </form>
-</div>
+            <a href="{{ route('accounts.edit', ['id' => $account->id]) }}" class="text-sm bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded">Edit</a>
+            <form action="{{ route('accounts.destroy', ['id' => $account->id]) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="text-sm bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">Delete</button>
+            </form>
+          </div>
         </div>
-        
-
-      `;
-    }
-
-    // Load all accounts on page load
-    async function loadAccounts() {
-      try {
-        let res = await fetch('/api/accounts', {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + token
-          }
-        });
-
-        let data = await res.json();
-
-        if (res.ok) {
-          accountsList.innerHTML = ""; // clear before adding
-          data.forEach(account => renderAccount(account));
-        } else {
-          alert("Failed to load accounts: " + JSON.stringify(data));
-        }
-      } catch (error) {
-        console.error("Error loading accounts", error);
-      }
-    }
-
-    // Handle form submission (Add new account)
-    document.getElementById('accountsForm').addEventListener('submit', async function (event) {
-      event.preventDefault();
-
-      let accountData = {
-        name: document.querySelector('input[name="name"]').value,
-        balance: document.querySelector('input[name="balance"]').value,
-        type: document.querySelector('select[name="type"]').value
-      };
-
-      let res = await fetch('/api/accounts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify(accountData)
-      });
-
-      let data = await res.json();
-
-      if (res.ok) {
-        renderAccount(data);
-        document.getElementById('accountsForm').reset();
-      } else {
-        alert('Account creation failed: ' + JSON.stringify(data));
-      }
-    });
-
-    // Call loadAccounts() when page loads
-    window.onload = loadAccounts;
-  </script>
+      @endforeach
+      
+    </div>
+  </div>
 
 </body>
-
 </html>

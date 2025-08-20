@@ -17,8 +17,7 @@ Route::view('/dashboard', 'dashboard');
 Route::view('/accounts', 'Account')->name('accounts');
 Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.store');
 
-Route::get('/accounts/{id}/edit', [AccountController::class, 'edit']);
-
+Route::get('/accounts/{id}/edit', [AccountController::class, 'edit'])->name('accounts.edit');
 Route::put('/accounts/{id}', [AccountController::class, 'update'])->name('accounts.update');
 Route::delete('/accounts/{id}', [AccountController::class, 'destroy'])->name('accounts.destroy');
 
