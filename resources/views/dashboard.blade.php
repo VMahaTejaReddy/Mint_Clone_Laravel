@@ -10,8 +10,9 @@
 
   <!-- Navbar -->
   <nav class="bg-gray-800 p-3 sm:p-4 flex justify-around lg:flex-col lg:justify-start lg:w-64 lg:min-h-screen">
-    <h1 class="text-lg sm:text-xl font-bold mb-4 hidden lg:block">Dashboard</h1>
+    <h1 class="text-lg sm:text-xl font-bold mb-4 hidden lg:block">Mint</h1>
     <div class="flex space-x-2 sm:space-x-4 lg:space-x-0 lg:flex-col lg:space-y-3 w-full">
+      <a href="{{ route('dashboard') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg bg-gray-700 text-center lg:text-left">Dashboard</a>
       <a href="{{ route('accounts') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Accounts</a>
       <a href="{{ route('bills') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Bills</a>
       <a href="{{ route('budgets') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Budgets</a>
@@ -19,7 +20,7 @@
       <a href="{{ route('transactions') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Transactions</a>
       <a href="{{ route('goals') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Goals</a>
       <a href="#" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Notifications</a>
-      <a href="#" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Profile</a>
+      <a href="{{ route('profile') }}" class="block px-2 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-700 text-center lg:text-left">Profile</a>
     </div>
     <button id="logoutBtn" class="mt-4 bg-red-600 hover:bg-red-700 w-full px-4 py-2 rounded-lg font-semibold">Logout</button>
   </nav>
@@ -91,6 +92,8 @@ async function fetchData(endpoint, containerId) {
       let card = document.createElement("div");
       card.className = "bg-gray-800 p-4 rounded-xl shadow text-sm sm:text-base";
 
+      let status="";
+
       if (endpoint === "budgets") {
         card.innerHTML = `
           <h4 class="font-bold">${item.category ? item.category.name : "No Category"}</h4>
@@ -103,14 +106,24 @@ async function fetchData(endpoint, containerId) {
           <p class="text-gray-400">Balance: ₹${item.balance}</p>
         `;
       } else if (endpoint === "bills") {
+        if (item.due_date < new Date().toISOString().split("T")[0]) {
+          card.classList.add("bg-red-700/30", "border", "border-red-500");
+          status = "Overdue";
+        } else {
+          card.classList.add("bg-green-900", "border", "border-green-500");
+          status = "Upcoming";
+        }
         card.innerHTML = `
-          <h4 class="font-bold">${item.name}</h4>
+          <h4 class="font-bold">Status: ${status}</h4>
+          <h4 class="font-bold">Name: ${item.name}</h4>
           <p class="text-gray-400">Amount: ₹${item.amount}</p>
         `;
       } else if (endpoint === "goals") {
         card.innerHTML = `
           <h4 class="font-bold">${item.name}</h4>
           <p class="text-gray-400">Target: ₹${item.target_amount}</p>
+          <p class="text-gray-400">Current: ₹${item.current_amount}</p>
+          <p class="text-gray-400">Due Date: ${item.due_date}</p>
         `;
       } else {
         card.innerHTML = `

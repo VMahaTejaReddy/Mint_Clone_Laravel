@@ -3,13 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
+    // UserController.php
+
+
+    public function showProfile(Request $request)
+{
+    try {
+        $token = $request->cookie('token'); // get token from cookie
+        if (!$token) {
+            return redirect('/login')->with('error', 'You must log in first.');
+        }
+
+        $user = JWTAuth::setToken($token)->authenticate();
+
+        if (!$user) {
+            return redirect('/login')->with('error', 'Invalid or expired session.');
+        }
+
+        return view('profile', ['user' => $user]);
+    } catch (\Exception $e) {
+        return redirect('/login')->with('error', 'Session expired, please log in again.');
+    }
+}
+
     /**
      * Display a listing of the resource.
      */
@@ -89,5 +115,5 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['message'=>'User deleted successfully']);
     }
-    
+
 }

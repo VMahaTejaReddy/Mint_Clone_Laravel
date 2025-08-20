@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-// use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AccountController extends Controller
 {
@@ -35,12 +35,10 @@ class AccountController extends Controller
         return response()->json($account);
     }
 
-    // app/Http/Controllers/AccountController.php
-
-public function edit($id)
+    public function edit($id)
 {
     $account = Account::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
-    return view('edit', compact('account')); // This loads the edit.blade.php file
+    return view('edit', compact('account'));
 }
 
     public function update(Request $request, $id)

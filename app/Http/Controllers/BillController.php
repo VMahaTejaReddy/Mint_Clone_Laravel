@@ -27,5 +27,21 @@ class BillController extends Controller
         return response()->json($bill, 201);
     }
     
-    
+    public function update(Request $request, Bill $bill)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'amount' => 'required|numeric',
+            'due_date' => 'required|date'
+        ]);
+
+        $bill->update($validated);
+        return response()->json($bill);
+    }
+
+    public function destroy(Bill $bill)
+    {
+        $bill->delete();
+        return response()->json(null, 204);
+    }
 }

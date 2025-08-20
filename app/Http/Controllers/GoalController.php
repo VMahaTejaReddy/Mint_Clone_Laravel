@@ -19,6 +19,7 @@ class GoalController extends Controller
             'name' => 'required|string|max:255',
             'target_amount' => 'required|numeric',
             'current_amount' => 'numeric',
+            'due_date' => 'required|date',
         ]);
 
         $validated['user_id'] = Auth::id(); // Securely set user_id
@@ -46,7 +47,9 @@ class GoalController extends Controller
             'name' => 'string|max:255',
             'target_amount' => 'numeric',
             'current_amount' => 'numeric',
+            'due_date' => 'date',
         ]);
+
 
         $goal->update($validated);
         return response()->json($goal);
