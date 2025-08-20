@@ -17,6 +17,11 @@ Route::view('/dashboard', 'dashboard');
 Route::view('/accounts', 'Account')->name('accounts');
 Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.store');
 
+Route::get('/accounts/{id}/edit', [AccountController::class, 'edit']);
+
+Route::put('/accounts/{id}', [AccountController::class, 'update'])->name('accounts.update');
+Route::delete('/accounts/{id}', [AccountController::class, 'destroy'])->name('accounts.destroy');
+
 Route::get('/budgets', [BudgetController::class, 'display'])->name('budgets');
 Route::post('/budgets', [BudgetController::class, 'store'])->name('budgets.store');
 

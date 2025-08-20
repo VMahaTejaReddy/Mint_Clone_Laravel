@@ -61,7 +61,17 @@
           <h3 class="text-lg font-semibold truncate">${account.name}</h3>
           <p>Balance: <span class="font-medium">₹${account.balance}</span></p>
           <p>Type: ${account.type}</p>
+          <div class="flex justify-end space-x-2">
+    <a href="/accounts/${account.id}/edit" class="text-sm bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded">Edit</a>
+    <form action="/accounts/${account.id}" method="POST" onsubmit="return confirm('Are you sure?')">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="text-sm bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">Delete</button>
+    </form>
+</div>
         </div>
+        
+
       `;
     }
 
@@ -126,4 +136,3 @@
 </body>
 
 </html>
-

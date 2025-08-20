@@ -31,12 +31,11 @@
         <option value="{{ $category->id }}">{{ $category->name }}</option>
         @endforeach
       </select>
-      <select name="account_id"
+      
+      <!-- Account dropdown will be populated by JavaScript -->
+      <select name="account_id" id="account_id_select"
         class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-orange-500 outline-none">
         <option value="">-- Select Account --</option>
-        @foreach($accounts as $account)
-        <option value="{{ $account->id }}">{{ $account->name }}</option>
-        @endforeach
       </select>
 
       <!-- Back to Dashboard -->
@@ -90,57 +89,74 @@
 
       if (res.ok) {
         alert("Transaction added successfully!");
-
-        // Append new transaction dynamically
-        document.getElementById('transactionsList').innerHTML += `
-          <div class="bg-gray-800 p-5 rounded-xl shadow-md w-full">
-            <h3 class="text-lg font-semibold">${data.description}</h3>
-            <p class="text-gray-300">Amount: ₹${data.amount}</p>
-            <p class="text-gray-300">Date: ${data.date}</p>
-            <p class="text-gray-400 text-sm">Category: ${data.category ? data.category.name : "N/A"}</p>
-            <p class="text-gray-400 text-sm">Account: ${data.account ? data.account.name : "N/A"}</p>
-          </div>
-        `;
-
-        // Reset form
+        loadTransactions(); // Reload the list to show the new transaction
         document.getElementById('transactionsForm').reset();
       } else {
         alert('Transaction failed: ' + JSON.stringify(data));
       }
     });
 
+    // Load user-specific accounts for the dropdown
+    async function loadAccounts() {
+        try {
+            let res = await fetch('/api/accounts', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            let accounts = await res.json();
+            if (res.ok) {
+                const select = document.getElementById('account_id_select');
+                select.innerHTML = '<option value="">-- Select Account --</option>'; // Clear existing options
+                accounts.forEach(account => {
+                    select.innerHTML += `<option value="${account.id}">${account.name}</option>`;
+                });
+            }
+        } catch (error) {
+            console.error("Error loading accounts", error);
+        }
+    }
+
     // Load Transactions List on Page Load
     async function loadTransactions() {
-      let res = await fetch('/api/transactions', {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + token
-        }
-      });
+      try {
+          let res = await fetch('/api/transactions', {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + token
+            }
+          });
 
-      let transactions = await res.json();
+          let transactions = await res.json();
 
-      if (res.ok) {
-        let list = document.getElementById('transactionsList');
-        list.innerHTML = "";
+          if (res.ok) {
+            let list = document.getElementById('transactionsList');
+            list.innerHTML = ""; // Clear the list before populating
 
-        transactions.forEach(data => {
-  document.getElementById('transactionsList').innerHTML += `
-  <div class="bg-gray-800 p-5 rounded-xl shadow-md w-full">
-    <h3 class="text-lg font-semibold">${data.description}</h3>
-    <p class="text-gray-300">Amount: ₹${data.amount}</p>
-    <p class="text-gray-300">Date: ${data.date}</p>
-    <p class="text-gray-400 text-sm">Category: ${data.category ? data.category.name : "N/A"}</p>
-    <p class="text-gray-400 text-sm">Account: ${data.account ? data.account.name : "N/A"}</p>
-  </div>
-`;
-});
+            transactions.forEach(data => {
+              list.innerHTML += `
+              <div class="bg-gray-800 p-5 rounded-xl shadow-md w-full">
+                <h3 class="text-lg font-semibold">${data.description}</h3>
+                <p class="text-gray-300">Amount: ₹${data.amount}</p>
+                <p class="text-gray-300">Date: ${data.date}</p>
+                <p class="text-gray-400 text-sm">Category: ${data.category ? data.category.name : "N/A"}</p>
+                <p class="text-gray-400 text-sm">Account: ${data.account ? data.account.name : "N/A"}</p>
+              </div>
+            `;
+            });
+          }
+      } catch(error) {
+          console.error("Error loading transactions:", error);
       }
     }
 
-    // Call loadTransactions when page loads
-    window.onload = loadTransactions;
+    // Call load functions when page loads
+    window.onload = () => {
+        loadAccounts();
+        loadTransactions();
+    };
   </script>
 
 </body>

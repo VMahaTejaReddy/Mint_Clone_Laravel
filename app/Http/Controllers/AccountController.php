@@ -35,6 +35,14 @@ class AccountController extends Controller
         return response()->json($account);
     }
 
+    // app/Http/Controllers/AccountController.php
+
+public function edit($id)
+{
+    $account = Account::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+    return view('edit', compact('account')); // This loads the edit.blade.php file
+}
+
     public function update(Request $request, $id)
     {
         $account = Account::where('id', $id)->where('user_id', Auth::id())->firstOrFail();

@@ -9,10 +9,12 @@ class Account extends Model
     protected $fillable = ['user_id','name', 'type', 'balance'];
 
     public function user(){
-        return $this->belongsTo(Account::class);
+        // Corrected this to point to the User model
+        return $this->belongsTo(User::class);
     }
 
     public function transactions(){
-        return $this->hasMany(Account::class);
+        // Corrected this to point to the Transaction model
+        return $this->hasMany(Transaction::class);
     }
 }

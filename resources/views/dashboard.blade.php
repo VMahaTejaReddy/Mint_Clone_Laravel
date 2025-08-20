@@ -104,12 +104,12 @@ async function fetchData(endpoint, containerId) {
         `;
       } else if (endpoint === "bills") {
         card.innerHTML = `
-          <h4 class="font-bold">${item.title}</h4>
+          <h4 class="font-bold">${item.name}</h4>
           <p class="text-gray-400">Amount: ₹${item.amount}</p>
         `;
       } else if (endpoint === "goals") {
         card.innerHTML = `
-          <h4 class="font-bold">${item.title}</h4>
+          <h4 class="font-bold">${item.name}</h4>
           <p class="text-gray-400">Target: ₹${item.target_amount}</p>
         `;
       } else {
