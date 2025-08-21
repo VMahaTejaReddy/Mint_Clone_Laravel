@@ -29,7 +29,9 @@ class GoalController extends Controller
 
     public function show($id)
     {
-        $goal = Goal::find($id);
+        $goal = Goal::where('id', $id)
+                    ->where('user_id', Auth::id())
+                    ->first();
         if (!$goal) {
             return response()->json(['message' => 'Goal not found'], 404);
         }
@@ -38,7 +40,9 @@ class GoalController extends Controller
 
     public function update(Request $request, $id)
     {
-        $goal = Goal::find($id);
+        $goal = Goal::where('id', $id)
+                    ->where('user_id', Auth::id())
+                    ->first();
         if (!$goal) {
             return response()->json(['message' => 'Goal not found'], 404);
         }
@@ -57,7 +61,9 @@ class GoalController extends Controller
 
     public function destroy($id)
     {
-        $goal = Goal::find($id);
+        $goal = Goal::where('id', $id)
+                    ->where('user_id', Auth::id())
+                    ->first();
         if (!$goal) {
             return response()->json(['message' => 'Goal not found'], 404);
         }

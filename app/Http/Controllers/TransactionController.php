@@ -43,6 +43,10 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
 {
+    if (!Account::where('id', $request->account_id)->where('user_id', Auth::id())->exists()) {
+    return response()->json(['error' => 'Invalid account'], 403);
+}
+
     $validate = $request->validate([
         'account_id' => 'required|exists:accounts,id',
         'category_id' => 'required|exists:categories,id',
@@ -88,6 +92,10 @@ class TransactionController extends Controller
         if (!$transaction){
             return response()->json(['message'=>'Transaction not found'], 404);
         }
+        if ($transaction->user_id !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
 
         $validate = $request->validate([
             'account_id' => 'required|exists:accounts,id',
@@ -110,6 +118,10 @@ class TransactionController extends Controller
         if (!$transaction){
             return response()->json(['message'=>'Transaction not found'], 404);
         };
+        if ($transaction->user_id !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         $transaction->delete();
         return response()->json(['message'=>'Transaction deleted']);
     }

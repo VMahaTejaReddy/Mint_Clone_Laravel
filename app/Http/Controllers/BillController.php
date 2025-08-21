@@ -29,6 +29,8 @@ class BillController extends Controller
     
     public function update(Request $request, Bill $bill)
     {
+        $bill = Bill::where('id', $bill->id)->where('user_id', Auth::id())->firstOrFail();
+
         $validated = $request->validate([
             'name' => 'required|string|max:100',
             'amount' => 'required|numeric',
@@ -41,6 +43,8 @@ class BillController extends Controller
 
     public function destroy(Bill $bill)
     {
+        $bill = Bill::where('id', $bill->id)->where('user_id', Auth::id())->firstOrFail();
+
         $bill->delete();
         return response()->json(null, 204);
     }

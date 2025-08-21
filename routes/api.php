@@ -9,9 +9,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\GoalController;
-// use App\Http\Controllers\DashboardController;
-
-// Route::middleware('auth:api')->get('/dashboard-data', [DashboardController::class, 'getData']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class,'login']);
@@ -28,12 +25,4 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('budgets', BudgetController::class);
     Route::apiResource('bills', BillController::class);
     Route::apiResource('goals', GoalController::class);
-Route::middleware('auth:api')->get('/profile', function () {
-    $user = Auth::user();
-    $accounts = $user->accounts;
-    return response()->json([
-        'user' => $user,
-        'accounts' => $accounts
-    ]);
-});
 });

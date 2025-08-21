@@ -38,7 +38,11 @@ public function index()
 
     public function show($id)
     {
-        $budget = Budget::with('category')->find($id);
+        $budget = Budget::with('category')
+        ->where('id', $id)
+        ->where('user_id', Auth::id())
+        ->first();
+
         if (!$budget) {
             return response()->json(['message' => 'Budget not found'], 404);
         }
@@ -47,7 +51,10 @@ public function index()
 
     public function update(Request $request, $id)
     {
-        $budget = Budget::find($id);
+        $budget = Budget::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->first();
+
         if (!$budget) {
             return response()->json(['message' => 'Budget not found'], 404);
         }
@@ -63,7 +70,10 @@ public function index()
 
     public function destroy($id)
     {
-        $budget = Budget::find($id);
+        $budget = Budget::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->first();
+
         if (!$budget) {
             return response()->json(['message' => 'Budget not found'], 404);
         }
