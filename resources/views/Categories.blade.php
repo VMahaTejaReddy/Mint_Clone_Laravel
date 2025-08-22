@@ -70,7 +70,7 @@
       <h2 class="text-2xl font-semibold text-center mb-6">Categories List</h2>
       
       <div id="categoriesList" 
-          class="flex flex-col space-y-4 max-h-96 overflow-y-auto p-2">
+          class=" flex flex-col space-y-4 max-h-96 overflow-y-auto p-2">
         <!-- Categories will be dynamically loaded here -->
       </div>
     </div>

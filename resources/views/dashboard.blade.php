@@ -88,7 +88,8 @@ async function fetchData(endpoint, containerId) {
 
     data.forEach(item => {
       let card = document.createElement("div");
-      card.className = "bg-gray-800 p-4 rounded-xl shadow text-sm sm:text-base";
+      card.className = "bg-gray-800 p-4 rounded-xl shadow text-sm sm:text-base transform transition duration-300 ease-out hover:scale-105 hover:shadow-lg hover:-translate-y-1";
+
 
       let status="";
 

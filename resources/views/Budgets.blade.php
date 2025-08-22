@@ -69,7 +69,7 @@
     </div>
 
     <!-- Budgets List -->
-    <div class="bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-5xl mx-auto">
+    <div class="bg-gray-700/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-5xl mx-auto">
       <h2 class="text-2xl font-semibold text-center mb-6">Budgets List</h2>
       <div id="budgetsList"
         class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[400px] overflow-y-auto p-2">
@@ -94,7 +94,7 @@
 
     function renderBudget(budget) {
       budgetsList.innerHTML += `
-        <div class="bg-gray-700 p-5 rounded-xl shadow-md w-full h-40 flex flex-col justify-between">
+        <div class="bg-gray-800 p-5 rounded-xl shadow-md w-full h-40 flex flex-col justify-between">
           <div>
             <h3 class="text-lg font-semibold">${budget.category?.name ?? 'Unknown Category'}</h3>
             <p class="mt-2 text-gray-300">Amount: ₹${budget.amount}</p>

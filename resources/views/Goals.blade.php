@@ -64,7 +64,7 @@
     </div>
 
     <!-- Goals List -->
-    <div class="bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-5xl">
+    <div class="bg-gray-700/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-5xl">
       <h2 class="text-2xl font-semibold text-center mb-6">Goals List</h2>
       <div id="goalsList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Dynamic goals will appear here -->
@@ -100,7 +100,7 @@
         goalsList.innerHTML = "";
         data.forEach(goal => {
           goalsList.innerHTML += `
-            <div class="bg-gray-700 p-5 rounded-xl shadow hover:shadow-lg transition">
+            <div class="bg-gray-800 p-5 rounded-xl shadow hover:shadow-lg transition">
               <h3 class="text-lg font-semibold mb-2">${goal.name}</h3>
               <p>🎯 Target: <span class="font-medium">₹${goal.target_amount}</span></p>
               <p>💰 Current: <span class="font-medium">₹${goal.current_amount}</span></p>

@@ -68,7 +68,7 @@
     </div>
 
     <!-- Accounts List -->
-    <div class="bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-5xl mx-auto">
+    <div class="bg-gray-700/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-5xl mx-auto">
       <h2 class="text-2xl font-semibold text-center mb-6">Accounts List</h2>
       <div id="accountsList"
         class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
@@ -95,7 +95,7 @@
     // Function to render a single account card
     function renderAccount(account) {
       accountsList.innerHTML += `
-        <div class="bg-gray-700 p-4 rounded-lg shadow-md w-full h-[150px] flex flex-col justify-between">
+        <div class="bg-gray-800 p-4 rounded-lg shadow-md w-full h-[150px] flex flex-col justify-between">
           <h3 class="text-lg font-semibold truncate">${account.name}</h3>
           <p>Balance: <span class="font-medium">₹${account.balance}</span></p>
           <p>Type: ${account.type}</p>
