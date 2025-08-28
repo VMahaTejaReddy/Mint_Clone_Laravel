@@ -25,4 +25,8 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('budgets', BudgetController::class);
     Route::apiResource('bills', BillController::class);
     Route::apiResource('goals', GoalController::class);
+
+
+
+    Route::get('/chart/spending-by-category', [App\Http\Controllers\DashboardController::class, 'spendingByCategory']);
 });

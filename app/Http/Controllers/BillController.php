@@ -13,6 +13,15 @@ class BillController extends Controller
         return response()->json(Bill::where('user_id', Auth::id())->get());
     }
 
+ public function show($id)
+{
+    $bill = Bill::find($id);
+    if (!$bill) {
+        return response()->json(['error' => 'Bill not found'], 404);
+    }
+    return response()->json($bill);
+}
+
     public function store(Request $request)
     {
         $validated = $request->validate([

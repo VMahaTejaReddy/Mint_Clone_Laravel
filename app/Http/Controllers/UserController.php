@@ -16,25 +16,25 @@ class UserController extends Controller
     // UserController.php
 
 
-    public function showProfile(Request $request)
-{
-    try {
-        $token = $request->cookie('token'); // get token from cookie
-        if (!$token) {
-            return redirect('/login')->with('error', 'You must log in first.');
-        }
+//     public function showProfile(Request $request)
+// {
+//     try {
+//         $token = $request->cookie('token'); // get token from cookie
+//         if (!$token) {
+//             return redirect('/login')->with('error', 'You must log in first.');
+//         }
 
-        $user = JWTAuth::setToken($token)->authenticate();
+//         $user = JWTAuth::setToken($token)->authenticate();
 
-        if (!$user) {
-            return redirect('/login')->with('error', 'Invalid or expired session.');
-        }
+//         if (!$user) {
+//             return redirect('/login')->with('error', 'Invalid or expired session.');
+//         }
 
-        return view('profile', ['user' => $user]);
-    } catch (\Exception $e) {
-        return redirect('/login')->with('error', 'Session expired, please log in again.');
-    }
-}
+//         return view('profile', ['user' => $user]);
+//     } catch (\Exception $e) {
+//         return redirect('/login')->with('error', 'Session expired, please log in again.');
+//     }
+// }
 
     /**
      * Display a listing of the resource.

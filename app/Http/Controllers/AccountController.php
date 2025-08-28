@@ -34,28 +34,24 @@ class AccountController extends Controller
         $account = Account::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         return response()->json($account);
     }
+    
+    // app/Http/Controllers/AccountController.php
 
-    public function edit($id)
+public function update(Request $request, $id)
 {
     $account = Account::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
-    return view('edit', compact('account'));
+
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'type' => 'required|string|max:100',
+        'balance' => 'required|numeric'
+    ]);
+
+    $account->update($validated);
+
+    // Make sure it returns a JSON response
+    return response()->json($account, 200);
 }
-
-    public function update(Request $request, $id)
-    {
-        $account = Account::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|string|max:100',
-            'balance' => 'required|numeric'
-        ]);
-
-        $validated['user_id'] = Auth::id();
-
-        $account->update($validated);
-        return response()->json($account, 200);
-    }
 
     public function destroy($id)
     {

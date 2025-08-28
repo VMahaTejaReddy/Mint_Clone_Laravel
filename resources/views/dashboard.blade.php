@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/266842c081.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col lg:flex-row">
 
@@ -34,6 +37,14 @@
       <h3 class="text-xl font-semibold mb-2">Your Accounts</h3>
       <div id="accountsList" class="h-40 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- Accounts will be inserted here -->
+      </div>
+    </div>
+    
+    <!-- Chart Section -->
+    <div class="bg-gray-800 p-4 rounded-xl shadow-lg">
+      <h3 class="text-xl font-semibold mb-4 text-center">Spending by Category</h3>
+      <div class="h-80"> <!-- Set a height for the chart container -->
+        <canvas id="spendingChart"></canvas>
       </div>
     </div>
 
@@ -120,9 +131,9 @@ async function fetchData(endpoint, containerId) {
       } else if (endpoint === "goals") {
         card.innerHTML = `
           <h4 class="font-bold">${item.name}</h4>
-          <p class="text-gray-400">Target: ₹${item.target_amount}</p>
-          <p class="text-gray-400">Current: ₹${item.current_amount}</p>
-          <p class="text-gray-400">Due Date: ${item.due_date}</p>
+          <p class="text-gray-400">🎯 Target: ₹${item.target_amount}</p>
+          <p class="text-gray-400">💰 Current: ₹${item.current_amount}</p>
+          <p class="text-gray-400">📅 Due Date: ${item.due_date}</p>
         `;
       } else {
         card.innerHTML = `
@@ -137,13 +148,74 @@ async function fetchData(endpoint, containerId) {
   }
 }
 
+// In resources/views/dashboard.blade.php, inside the <script> tag
+
+async function renderSpendingChart() {
+    try {
+        let res = await fetch(`/api/chart/spending-by-category`, {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        let data = await res.json();
+
+        const chartData = {
+            labels: data.map(item => item.category), // Category names
+            datasets: [{
+                label: 'Spending in ₹',
+                data: data.map(item => item.total), // Total amounts
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const ctx = document.getElementById('spendingChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#E5E7EB' // Text color for Y-axis labels
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)' // Grid line color
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#E5E7EB' // Text color for X-axis labels
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#E5E7EB' // Legend text color
+                        }
+                    }
+                }
+            }
+        });
+    } catch (err) {
+        console.error('Error loading chart data:', err);
+    }
+}
+
+// Call APIs
+fetchData("accounts", "accountsList");
+fetchData("bills", "billsList");
+fetchData("budgets", "budgetsList");
+fetchData("goals", "goalsList");
+renderSpendingChart(); // 👈 Call the new chart function
 
 
-    // Call APIs
-    fetchData("accounts", "accountsList");
-    fetchData("bills", "billsList");
-    fetchData("budgets", "budgetsList");
-    fetchData("goals", "goalsList");
 
     // Logout
     document.getElementById("logoutBtn").addEventListener("click", async function() {

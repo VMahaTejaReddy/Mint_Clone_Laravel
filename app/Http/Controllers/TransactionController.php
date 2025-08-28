@@ -52,7 +52,8 @@ class TransactionController extends Controller
         'category_id' => 'required|exists:categories,id',
         'description' => 'required|string|max:255',
         'amount' => 'required|numeric',
-        'date' => 'required|date'
+        'date' => 'required|date',
+        'type' => 'required|string|in:income,expense',
     ]);
     $validate['user_id'] = Auth::id();
     $transaction = Transaction::create($validate);
@@ -86,28 +87,31 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $transaction = Transaction::find($id);
-        if (!$transaction){
-            return response()->json(['message'=>'Transaction not found'], 404);
-        }
-        if ($transaction->user_id !== Auth::id()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
-
-        $validate = $request->validate([
-            'account_id' => 'required|exists:accounts,id',
-            'category_id' => 'required|exists:categories,id',
-            'description' => 'required|string|max:100',
-            'amount' => 'required|numeric',
-            'date' => 'required|date'
-        ]);
-
-        $transaction->update($validate);
-        return response()->json($transaction,200);
+public function update(Request $request, string $id)
+{
+    $transaction = Transaction::find($id);
+    if (!$transaction) {
+        return response()->json(['message' => 'Transaction not found'], 404);
     }
+    if ($transaction->user_id !== Auth::id()) {
+        return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
+    $validate = $request->validate([
+        'account_id' => 'required|exists:accounts,id',
+        'category_id' => 'required|exists:categories,id',
+        'description' => 'required|string|max:255',
+        'amount' => 'required|numeric',
+        'date' => 'required|date',
+        'type' => 'required|string|in:income,expense',
+    ]);
+
+    $transaction->update($validate);
+    $transaction->load(['category','account']); // return relations
+
+    return response()->json($transaction,200);
+}
+
 
     /**
      * Remove the specified resource from storage.
