@@ -1,4 +1,4 @@
-     <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -19,7 +19,7 @@
       <a href="{{ route('bills') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Bills</a>
       <a href="{{ route('budgets') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Budgets</a>
       <a href="{{ route('categories') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Categories</a>
-      <a href="{{ route('transactions') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Transactions</a>
+      <a href="{{ route('transactions.index') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Transactions</a>
       <a href="{{ route('goals') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Goals</a>
       <a href="#" class="px-3 py-2 rounded-lg hover:bg-gray-700">Notifications</a>
       <a href="{{ route('profile') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Profile</a>
@@ -29,10 +29,9 @@
 
   <div class="flex-1 ml-0 sm:ml-64 p-6 flex flex-col items-center space-y-10">
 
-    <button id="addAccountBtn" class=" bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold">Add Account</button>
+    <button id="addAccountBtn" class=" bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold">+ Add Account</button>
 
     {{-- Add Account Form --}}
-    
     <div id="addAccountForm" class="hidden bg-gray-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-lg w-full max-w-lg mx-auto">
       <h2 class="text-2xl font-semibold text-center mb-4">Add Account</h2>
       <form id="accountsForm" class="space-y-4">
@@ -73,46 +72,45 @@
   </div>
 
   <!-- Edit Account Modal -->
-<div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-  <div class="bg-gray-800 p-6 rounded-lg w-96">
-    <h2 class="text-xl mb-4">Edit Account</h2>
-    <form id="editAccountForm" class="space-y-4">
-      @csrf
-      <input type="hidden" id="editAccountId">
+  <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-gray-800 p-6 rounded-lg w-96">
+      <h2 class="text-xl mb-4">Edit Account</h2>
+      <form id="editAccountForm" class="space-y-4">
+        @csrf
+        <input type="hidden" id="editAccountId">
 
-      <div>
-        <label class="block">Account Name</label>
-        <input type="text" id="editName" class="w-full p-2 rounded bg-gray-700 text-white">
-        <p id="editNameError" class="text-red-500 text-sm hidden">Account name is required.</p>
-      </div>
+        <div>
+          <label class="block">Account Name</label>
+          <input type="text" id="editName" class="w-full p-2 rounded bg-gray-700 text-white">
+          <p id="editNameError" class="text-red-500 text-sm hidden">Account name is required.</p>
+        </div>
 
-      <div>
-        <label class="block">Balance</label>
-        <input type="number" id="editBalance" class="w-full p-2 rounded bg-gray-700 text-white">
-        <p id="editBalanceError" class="text-red-500 text-sm hidden">Balance must be a valid number.</p>
-      </div>
+        <div>
+          <label class="block">Balance</label>
+          <input type="number" id="editBalance" class="w-full p-2 rounded bg-gray-700 text-white">
+          <p id="editBalanceError" class="text-red-500 text-sm hidden">Balance must be a valid number.</p>
+        </div>
 
-      <div>
-        <label class="block">Type</label>
-        <select id="editType" class="w-full p-2 rounded bg-gray-700 text-white">
-          <option value="">Select type</option>
-          <option value="savings Account">Savings Account</option>
-          <option value="current Account">Current Account</option>
-          <option value="credit Card">Credit Card</option>
-        </select>
-        <p id="editTypeError" class="text-red-500 text-sm hidden">Please select an account type.</p>
-      </div>
+        <div>
+          <label class="block">Type</label>
+          <select id="editType" class="w-full p-2 rounded bg-gray-700 text-white">
+            <option value="">Select type</option>
+            <option value="Savings Account">Savings Account</option>
+            <option value="Current Account">Current Account</option>
+            <option value="Credit Card">Credit Card</option>
+          </select>
+          <p id="editTypeError" class="text-red-500 text-sm hidden">Please select an account type.</p>
+        </div>
 
-      <div class="flex justify-end space-x-2">
-        <button type="button" onclick="closeEditModal()" 
-          class="bg-gray-500 px-4 py-2 rounded">Cancel</button>
-        <button type="submit" 
-          class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">Update</button>
-      </div>
-    </form>
+        <div class="flex justify-end space-x-2">
+          <button type="button" onclick="closeEditModal()" 
+            class="bg-gray-500 px-4 py-2 rounded">Cancel</button>
+          <button type="submit" 
+            class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">Update</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
-
 
   {{-- Delete Modal --}}
   <div id="deleteModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
@@ -141,10 +139,10 @@
   let addAccountForm = document.getElementById('addAccountForm');
   addAccountBtn.addEventListener("click", function() {
       addAccountForm.classList.toggle("hidden");
-      if (addAccountBtn.textContent === "Add Accunt") {
-        addAccountBtn.textContent = "Close Form";
+      if (addAccountBtn.textContent === "+ Add Account") {
+        addAccountBtn.textContent = "❌ Close Form";
       } else {
-        addAccountBtn.textContent = "Add Account";
+        addAccountBtn.textContent = "+ Add Account";
       }
     });
 
@@ -170,28 +168,30 @@
   }
 
   // Load Accounts
-    async function loadAccounts() {
-      const res = await fetch("/api/accounts", { method: 'GET', headers: { Authorization: `Bearer ${token}` } });
-      const data = await res.json();
-      if (res.ok) {
-        accountsList.innerHTML = "";
-        data.forEach(account => renderAccount(account));
-      }
+  async function loadAccounts() {
+    const res = await fetch("/api/accounts", { method: 'GET', headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    if (res.ok) {
+      accountsList.innerHTML = "";
+      data.forEach(account => renderAccount(account));
     }
+  }
 
-    //Add Account
-    document.getElementById('accountsForm').addEventListener('submit', async function (event) {
+  //Add Account
+  document.getElementById('accountsForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const formData = new FormData(this);
-    const name = formData.get('name').trim(), balance = formData.get('balance').trim(), type = formData.get('type').value;
+    const name = formData.get('name').trim();
+    const balance = formData.get('balance').trim();
+    const type = formData.get('type'); // ✅ FIXED: Removed `.value`
 
     const errors = {
       name: document.getElementById('nameError'),
       balance: document.getElementById('balanceError'),
       type: document.getElementById('typeError')
     };
-    //Handling Validations
+
     let valid = true;
     if(!name){errors.name.classList.remove("hidden");valid = false;} 
     else{errors.name.classList.add("hidden");}
@@ -206,6 +206,7 @@
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ' + token },
       body: JSON.stringify({ name, balance, type })
     });
+
     const data = await res.json();
     if(res.ok){
       renderAccount(data);
@@ -213,39 +214,37 @@
     }
   });
 
-  // --- EDIT ACCOUNT FORM ---
+  // EDIT ACCOUNT
   document.getElementById('editAccountForm').addEventListener('submit', async function (event) {
-  event.preventDefault();
-  const accountId = document.getElementById('editAccountId').value;
-  const id = document.getElementById('editAccountId').value;
-  const name = document.getElementById('editName').value;
-  const balance = document.getElementById('editBalance').value;
-  const type = document.getElementById('editType').value;
+    event.preventDefault();
+    const id = document.getElementById('editAccountId').value;
+    const name = document.getElementById('editName').value;
+    const balance = document.getElementById('editBalance').value;
+    const type = document.getElementById('editType').value;
 
-  // Handling Validations
-  let valid = true;
-  if(!name){document.getElementById("editNameError").classList.remove("hidden");valid = false;} 
-  else{document.getElementById("editNameError").classList.add("hidden");}
-  if(!balance || isNaN(balance) || parseFloat(balance) <= 0){document.getElementById("editBalanceError").classList.remove("hidden");valid = false;} 
-  else{document.getElementById("editBalanceError").classList.add("hidden");}
-  if(!type){document.getElementById("editTypeError").classList.remove("hidden");valid = false;} 
-  else{document.getElementById("editTypeError").classList.add("hidden");}
-  if(!valid) return;
+    let valid = true;
+    if(!name){document.getElementById("editNameError").classList.remove("hidden");valid = false;} 
+    else{document.getElementById("editNameError").classList.add("hidden");}
+    if(!balance || isNaN(balance) || parseFloat(balance) <= 0){document.getElementById("editBalanceError").classList.remove("hidden");valid = false;} 
+    else{document.getElementById("editBalanceError").classList.add("hidden");}
+    if(!type){document.getElementById("editTypeError").classList.remove("hidden");valid = false;} 
+    else{document.getElementById("editTypeError").classList.add("hidden");}
+    if(!valid) return;
 
-  const res = await fetch(`/api/accounts/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-    body: JSON.stringify({ name, balance, type })
+    const res = await fetch(`/api/accounts/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ name, balance, type })
+    });
+
+    if (res.ok) {
+      closeEditModal();
+      loadAccounts();
+    } else {
+      alert('Failed to update account.');
+    }
   });
 
-  if (res.ok) {
-    closeEditModal();
-    loadAccounts();
-  } else {
-    alert('Failed to update account.');
-  }
-});
-  // Open Edit Modal
   async function openEditModal(id) {
     const res = await fetch(`/api/accounts/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) {
@@ -258,25 +257,20 @@
     }
   }
 
-  // Open Delete Modal
   function openDeleteModal(id) {
     accountIdToDelete = id;
     deleteModal.classList.remove('hidden');
   }
 
-  //Close Edit Modal
   function closeEditModal() {
     editModal.classList.add('hidden');
   }
 
-  // Close Delete Modal
   function closeDeleteModal() {
     accountIdToDelete = null;
     deleteModal.classList.add('hidden');
   }
 
-
-  // --- DELETE ---
   confirmDeleteBtn.addEventListener('click', async () => {
     if (!accountIdToDelete) return;
 
@@ -294,7 +288,6 @@
     }
   });
 
-  // --- LOGOUT ---
   document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("jwt_token");
     window.location.href = "/login";
@@ -303,7 +296,5 @@
   window.onload = loadAccounts;
 </script>
 
-
 </body>
-
 </html>
