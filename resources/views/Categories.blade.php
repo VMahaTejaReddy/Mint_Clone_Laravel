@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Categories</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://kit.fontawesome.com/266842c081.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex">
 

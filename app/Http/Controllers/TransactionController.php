@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class TransactionController extends Controller
 {
@@ -39,8 +40,10 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        // Ensure the account belongs to the authenticated user
-        if (!Account::where('id', $request->account_id)->where('user_id', Auth::id())->exists()) {
+        // Ensure the account belongs to the authenticated user and get the account model
+        $account = Account::where('id', $request->account_id)->where('user_id', Auth::id())->first();
+
+        if (!$account) {
             return response()->json(['error' => 'Invalid account'], 403);
         }
 
@@ -53,11 +56,16 @@ class TransactionController extends Controller
             'type' => 'required|string|in:income,expense',
         ]);
 
+        // --- NEW: Balance Check Logic ---
+        if ($validate['type'] === 'expense' && $account->balance < $validate['amount']) {
+            // Return a specific error response if funds are insufficient
+            return response()->json(['message' => 'Insufficient funds for this transaction.'], 422);
+        }
+
         $validate['user_id'] = Auth::id(); // Assign the user ID
         $transaction = Transaction::create($validate);
 
         // Update account balance
-        $account = Account::find($request->account_id);
         if ($request->type === 'income') {
             $account->balance += $request->amount;
         } else {
@@ -155,3 +163,4 @@ class TransactionController extends Controller
         return response()->json(['message' => 'Transaction deleted']);
     }
 }
+

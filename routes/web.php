@@ -49,7 +49,6 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 
-
 Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
@@ -80,3 +79,7 @@ Route::post('/goals', [GoalController::class, 'store'])->name('goals.store');
 
 Route::view('/categories', 'Categories')->name('categories');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+
+Route::get('/notifications', function () {
+    return view('Notifications'); // This loads resources/views/Notifications.blade.php
+})->name('notifications');
