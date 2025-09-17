@@ -20,7 +20,7 @@
       <a href="{{ route('categories') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Categories</a>
       <a href="{{ route('transactions.index') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Transactions</a>
       <a href="{{ route('goals') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Goals</a>
-      <a href="#" class="px-3 py-2 rounded-lg hover:bg-gray-700">Notifications</a>
+      <a href="{{ route('notifications') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Notifications</a>
       <a href="{{ route('profile') }}" class="px-3 py-2 rounded-lg hover:bg-gray-700">Profile</a>
     </div>
     <button id="logoutBtn" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold">Logout</button>
